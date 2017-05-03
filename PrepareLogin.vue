@@ -8,8 +8,6 @@
 export default {
   data () {
     return {
-      CookieData: '',
-      initData: null,
       PdogLoad: true
     }
   },

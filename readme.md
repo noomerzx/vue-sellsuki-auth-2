@@ -6,7 +6,7 @@ Vue plugin for sellsuki authentication to connect between sellsuki microservices
 ## Features
 * Option to extend prepare login page (Component & Route)
 * Setup data from cookie to local storage
-* AuthMiddleware to check your auth status on every route change (check cookie exist)
+* Auth Middleware to check your auth status on every route change (check cookie exist)
 * Provide function to access to the cookie data
 
 ## Requirement
@@ -17,6 +17,9 @@ Vue plugin for sellsuki authentication to connect between sellsuki microservices
 
 Initiate plugin by ```Vue.use``` and add some options then the plugin will takecare everything for you.
 If cookie exist your app will work as it be but if cookie gone the plugin will redirect to the login portal.
+Note that we catch all unavailable route and redirect to prepare login, So if you have redirect route like 
+{ path: '*', redirect: { path: '/' } } You need to remove it from your route to protect the duplicate error.
+
 
 ```javascript
 import Vue from 'vue'
