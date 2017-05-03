@@ -1,19 +1,19 @@
 {
-  "name": "vue-sellsuki-auth",
-  "version": "0.1.1",
-  "description": "vue-sellsuki-auth",
+  "name": "vue-sellsuki-auth-2.0",
+  "version": "0.1.2",
+  "description": "vue-sellsuki-auth new version",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sellsuki/vue-sellsuki-auth.git"
+    "url": "git+https://github.com/noomerzx/vue-sellsuki-auth-2.0.git"
   },
-  "author": "Runyasak Chaengnaimuang <world.jadi@gmail.com>",
+  "author": "Wisarut Phuvanantanond <noomerzx@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Sellsuki/vue-sellsuki-auth/issues"
+    "url": "https://github.com/noomerzx/vue-sellsuki-auth-2.0/issues"
   },
-  "homepage": "https://github.com/Sellsuki/vue-sellsuki-auth#readme"
+  "homepage": "https://github.com/noomerzx/vue-sellsuki-auth-2.0"
 }

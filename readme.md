@@ -54,7 +54,7 @@ Vue.use(VueSellsukiAuth, options)
 ##### function [return type] 
 
 ### checkAuthStatus [bool]
-Check the status of the authentication (true if all data exist)
+Check status of the authentication (true if all data exist)
 
 ```javascript
 let status = this.$sellsuki_auth.checkAuthStatus()
@@ -98,7 +98,7 @@ Get auth data from cookie especially sellsuki data
 let sellsukiData = this.$sellsuki_auth.getSellsukiData()
 
 // Returned Object
-facebookData: {
+sellsukiData: {
   storeId: '',
   user: {},
   sellsukiToken: '',
