@@ -38,8 +38,7 @@ import VueSellsukiAuth from 'vue-sellsuki-auth'
 
 var router = new VueRouter({
   routes: [
-    { path: '/hello', component: Hello },
-    { path: '*', redirect: '/hello' }
+    { path: '/hello', component: Hello }
   ]
 })
 
