@@ -11,7 +11,8 @@ exports.install = function (Vue, options) {
       facebook: '',
       facebookToken: '',
       user: '',
-      bearer: '',
+      userBearer: '',
+      storeBearer: '',
       sellsukiToken: '',
       storeId: '',
       status: false
@@ -90,14 +91,14 @@ exports.install = function (Vue, options) {
       storeId: scope.authData.storeId,
       user: scope.authData.user,
       sellsukiToken: scope.authData.sellsukiToken,
-      bearer: scope.authData.bearer
+      storeBearer: scope.authData.storeBearer,
+      userBearer: scope.authData.userBearer
     }
   }
 
   // check data from localstorage is exist
   function checkStorage () {
     let result = true
-    console.log(localStorage.getItem('sellsuki.facebook').app_id)
     if (localStorage.getItem('sellsuki.facebook') === null ||
         localStorage.getItem('sellsuki.fblogintoken') === null ||
         localStorage.getItem('sellsuki.user') === null ||
@@ -140,8 +141,8 @@ exports.install = function (Vue, options) {
         let storeBearer = storeData.auth.token_type + ' ' + storeData.auth.access_token
         let userData = JSON.parse(unescape(user))
         let userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
-        localStorage.setItem('sellsuki.store.token', storeBearer)
-        localStorage.setItem('sellsuki.user.token', userBearer)
+        localStorage.setItem('sellsuki.store.bearer', storeBearer)
+        localStorage.setItem('sellsuki.user.bearer', userBearer)
         result = true
       } catch (e) { console.log(e) }
     }
@@ -156,7 +157,8 @@ exports.install = function (Vue, options) {
     scope.authData.facebook = localStorage.getItem('sellsuki.facebook')
     scope.authData.facebookToken = localStorage.getItem('sellsuki.fblogintoken')
     scope.authData.user = localStorage.getItem('sellsuki.user')
-    scope.authData.bearer = localStorage.getItem('sellsuki.bearer')
+    scope.authData.storeBearer = localStorage.getItem('sellsuki.store.bearer')
+    scope.authData.userBearer = localStorage.getItem('sellsuki.user.bearer')
     scope.authData.sellsukiToken = localStorage.getItem('store.id')
     scope.authData.storeId = localStorage.getItem('ssk_token')
     scope.authData.status = true
