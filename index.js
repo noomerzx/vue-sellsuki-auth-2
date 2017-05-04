@@ -40,10 +40,15 @@ exports.install = function (Vue, options) {
   // check auth everytime when route change
   scope.router.beforeEach((to, from, next) => {
     if (to.name !== 'prepare-login') {
+      // if don't have cookie go redirect.
       if (!checkCookie()) {
         window.location.href = scope.portal
       } else if (!checkStorage()) {
+        // if have cookie but dont have local storage set it.
         setupStorage()
+      } else if (scope.authData.status === false) {
+        // if have cookie and local storage but dont set to instance set it.
+        setupInstanceData ()
       }
     }
     next()
