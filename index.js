@@ -97,6 +97,7 @@ exports.install = function (Vue, options) {
   // check data from localstorage is exist
   function checkStorage () {
     let result = true
+    console.log(localStorage.getItem('sellsuki.facebook').app_id)
     if (localStorage.getItem('sellsuki.facebook') === null ||
         localStorage.getItem('sellsuki.fblogintoken') === null ||
         localStorage.getItem('sellsuki.user') === null ||
@@ -135,9 +136,12 @@ exports.install = function (Vue, options) {
       localStorage.setItem('sellsuki.bearer', unescape(storeIdData))
       localStorage.setItem('store.id', storeId)
       try {
-        let temp = JSON.parse(unescape(storeIdData))
-        let stringbear = temp.auth.token_type + ' ' + temp.auth.access_token
-        localStorage.setItem('ssk_token', stringbear)
+        let storeData = JSON.parse(unescape(storeIdData))
+        let storeBearer = storeData.auth.token_type + ' ' + storeData.auth.access_token
+        let userData = JSON.parse(unescape(user))
+        let userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
+        localStorage.setItem('sellsuki.store.token', storeBearer)
+        localStorage.setItem('sellsuki.user.token', userBearer)
         result = true
       } catch (e) { console.log(e) }
     }
