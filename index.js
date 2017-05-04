@@ -154,13 +154,13 @@ exports.install = function (Vue, options) {
 
   // setup data from local storage to instance
   function setupInstanceData () {
-    scope.authData.facebook = localStorage.getItem('sellsuki.facebook')
+    scope.authData.facebook = JSON.parse(localStorage.getItem('sellsuki.facebook'))
     scope.authData.facebookToken = localStorage.getItem('sellsuki.fblogintoken')
-    scope.authData.user = localStorage.getItem('sellsuki.user')
+    scope.authData.user = JSON.parse(localStorage.getItem('sellsuki.user'))
     scope.authData.storeBearer = localStorage.getItem('sellsuki.store.bearer')
     scope.authData.userBearer = localStorage.getItem('sellsuki.user.bearer')
     scope.authData.sellsukiToken = localStorage.getItem('store.id')
-    scope.authData.storeId = localStorage.getItem('ssk_token')
+    scope.authData.storeId = localStorage.getItem('store.id')
     scope.authData.status = true
   }
 
