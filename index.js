@@ -148,7 +148,7 @@ exports.install = function (Vue, options) {
         } else {
           result = false
         }
-      } catch () { console.log(e) }
+      } catch (e) { console.log(e) }
     }
     if (result) {
       setupInstanceData()
