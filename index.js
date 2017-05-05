@@ -120,9 +120,8 @@ exports.install = function (Vue, options) {
 
   function checkCookie () {
     let result = true
-    if (getCookie('sellsuki.user') === '' ||
-        (getCookie('sellsuki.storeId') !== 0 &&
-        (getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === '')) {
+    if (getCookie('sellsuki.user') === '' || (getCookie('sellsuki.storeId') !== 0 &&
+        getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === '')) {
       result = false
     }
     return result
