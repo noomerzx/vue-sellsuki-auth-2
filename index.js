@@ -61,7 +61,7 @@ exports.install = function (Vue, options) {
 
   // try to set localstorage from cookie
   Vue.prototype.$sellsuki_auth.initLocalStorage = (storeId) => {
-    document.cookie = 'sellsuki.storeId=' + storeId
+    if (scope.store) { document.cookie = 'sellsuki.storeId=' + storeId }
     if (!setupStorage()) {
       window.location.href = scope.portal
     } else {
@@ -132,21 +132,23 @@ exports.install = function (Vue, options) {
     let user = getCookie('sellsuki.user')
     let storeId = getCookie('sellsuki.storeId')
     let storeIdData = getCookie('sellsuki.store_' + storeId)
-    if (user && storeIdData) {
-      localStorage.setItem('sellsuki.facebook', unescape(facebook))
-      localStorage.setItem('sellsuki.fblogintoken', unescape(fblogintoken))
-      localStorage.setItem('sellsuki.user', unescape(user))
-      localStorage.setItem('sellsuki.bearer', unescape(storeIdData))
-      localStorage.setItem('store.id', storeId)
+    if (user) {
       try {
-        let storeData = JSON.parse(unescape(storeIdData))
-        let storeBearer = storeData.auth.token_type + ' ' + storeData.auth.access_token
         let userData = JSON.parse(unescape(user))
         let userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
-        localStorage.setItem('sellsuki.store.bearer', storeBearer)
         localStorage.setItem('sellsuki.user.bearer', userBearer)
+        localStorage.setItem('sellsuki.facebook', unescape(facebook))
+        localStorage.setItem('sellsuki.fblogintoken', unescape(fblogintoken))
+        localStorage.setItem('sellsuki.user', unescape(user))
         result = true
-      } catch (e) { console.log(e) }
+        if (scope.store && storeIdData) {
+          let storeData = JSON.parse(unescape(storeIdData))
+          let storeBearer = storeData.auth.token_type + ' ' + storeData.auth.access_token
+          localStorage.setItem('sellsuki.store.bearer', storeBearer)
+        } else {
+          result = false
+        }
+      } catch () { console.log(e) }
     }
     if (result) {
       setupInstanceData()
