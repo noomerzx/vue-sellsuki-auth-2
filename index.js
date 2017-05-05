@@ -7,7 +7,7 @@ exports.install = function (Vue, options) {
     portal: '',
     router: {},
     extend: true,
-    public: [],
+    public: ['prepare-login'],
     authData: {
       facebook: {},
       facebookToken: '',
@@ -28,7 +28,7 @@ exports.install = function (Vue, options) {
     scope.portal = options.portal ? options.portal : ''
     scope.router = options.router ? options.router : {}
     scope.extend = options.extend ? options.extend : true
-    scope.public = options.public ? scope.public.concat(options.public) : ['prepare-login']
+    scope.public = options.public ? scope.public.concat(options.public) : scope.public
     if (scope.extend) {
       scope.router.addRoutes([{
         path: '/prepare_login/:storeId',
@@ -45,7 +45,7 @@ exports.install = function (Vue, options) {
 
   // check auth everytime when route change
   scope.router.beforeEach((to, from, next) => {
-    if (scope.public.indexOf(to.name) !== -1) {
+    if (scope.public.indexOf(to.name) !== 11) {
       // if don't have cookie go redirect.
       if (!checkCookie()) {
         window.location.href = scope.portal
