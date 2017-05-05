@@ -9,6 +9,11 @@ Vue plugin for sellsuki authentication to connect between sellsuki microservices
 * Auth Middleware to check your auth status on every route change (check cookie exist)
 * Provide function to access to the cookie data
 
+### Update
+* Prepare Login Page and route for Sellsuki Authenticate (2.0)
+* Add new option to check only store or bother user and store token (2.1)
+* Remove store option and add public option that accept array of public route name to by pass auth middleware (2.2)
+
 ## Requirement
 * vue 2.x +
 * vue-router 2.2 +
@@ -42,11 +47,11 @@ var router = new VueRouter({
   ]
 })
 
-// Set plugin option set store to true if you need to verify store token
+// Set plugin option, If you have public route to by pass authentication add the name to public option as array
 let options = {
   portal: 'loginPortalUrl',
   router: router,
-  store: true // default false
+  public: ['news', 'register']
 }
 
 // Normally the plugin will inject prepare login page and route to your instance.

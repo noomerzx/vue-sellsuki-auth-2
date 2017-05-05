@@ -7,13 +7,16 @@ exports.install = function (Vue, options) {
     portal: '',
     router: {},
     extend: true,
-    store: false,
+    public: [],
     authData: {
-      facebook: '',
+      facebook: {},
       facebookToken: '',
-      user: '',
+      user: {},
       userBearer: '',
+      userToken: '',
+      store: {},
       storeBearer: '',
+      storeToken: '',
       sellsukiToken: '',
       storeId: '',
       status: false
@@ -24,8 +27,8 @@ exports.install = function (Vue, options) {
   if (options) {
     scope.portal = options.portal ? options.portal : ''
     scope.router = options.router ? options.router : {}
-    scope.store = options.store ? option.store : false
     scope.extend = options.extend ? options.extend : true
+    scope.public = option.public ? scope.public.concat(option.public) : ['prepare-login']
     if (scope.extend) {
       scope.router.addRoutes([{
         path: '/prepare_login/:storeId',
@@ -42,13 +45,13 @@ exports.install = function (Vue, options) {
 
   // check auth everytime when route change
   scope.router.beforeEach((to, from, next) => {
-    if (to.name !== 'prepare-login') {
+    if (scope.public.indexOf(to.name) !== -1) {
       // if don't have cookie go redirect.
       if (!checkCookie()) {
         window.location.href = scope.portal
-      } else if (!checkStorage()) {
+      } else if (!checkStorage() && !setupStorage()) {
         // if have cookie but dont have local storage set it.
-        setupStorage()
+        window.location.href = scope.portal
       } else if (scope.authData.status === false) {
         // if have cookie and local storage but dont set to instance set it.
         setupInstanceData ()
@@ -61,7 +64,7 @@ exports.install = function (Vue, options) {
 
   // try to set localstorage from cookie
   Vue.prototype.$sellsuki_auth.initLocalStorage = (storeId) => {
-    if (scope.store) { document.cookie = 'sellsuki.storeId=' + storeId }
+    document.cookie = 'sellsuki.storeId=' + storeId
     if (!setupStorage()) {
       window.location.href = scope.portal
     } else {
@@ -104,9 +107,12 @@ exports.install = function (Vue, options) {
     if (localStorage.getItem('sellsuki.facebook') === null ||
         localStorage.getItem('sellsuki.fblogintoken') === null ||
         localStorage.getItem('sellsuki.user') === null ||
-        localStorage.getItem('sellsuki.bearer') === null ||
-        localStorage.getItem('store.id') === null ||
-        localStorage.getItem('ssk_token') === null) {
+        localStorage.getItem('sellsuki.user.token') === null ||
+        localStorage.getItem('sellsuki.user.bearer') === null ||
+        localStorage.getItem('sellsuki.store') === null ||
+        localStorage.getItem('sellsuki.store.token') === null ||
+        localStorage.getItem('sellsuki.store.bearer') === null
+        localStorage.getItem('sellsuki.store.id') === null) {
       result = false
     }
     return result
@@ -114,11 +120,9 @@ exports.install = function (Vue, options) {
 
   function checkCookie () {
     let result = true
-    if (getCookie('sellsuki.facebook') === '' ||
-        getCookie('sellsuki.fblogintoken') === '' ||
-        getCookie('sellsuki.user') === '' ||
-        getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === '' ||
-        (scope.store === true && getCookie('sellsuki.storeId') === '')) {
+    if (getCookie('sellsuki.user') === '' ||
+        (getCookie('sellsuki.storeId')) !== 0 &&
+        getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === '')) {
       result = false
     }
     return result
@@ -131,41 +135,74 @@ exports.install = function (Vue, options) {
     let fblogintoken = getCookie('sellsuki.fblogintoken')
     let user = getCookie('sellsuki.user')
     let storeId = getCookie('sellsuki.storeId')
-    let storeIdData = getCookie('sellsuki.store_' + storeId)
-    if (user) {
-      try {
+    let storeData = getCookie('sellsuki.store_' + storeId)
+
+    try {
+      // check only user
+      if (user && parseInt(storeId) === 0) {
         let userData = JSON.parse(unescape(user))
         let userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
-        localStorage.setItem('sellsuki.user.bearer', userBearer)
-        localStorage.setItem('sellsuki.facebook', unescape(facebook))
-        localStorage.setItem('sellsuki.fblogintoken', unescape(fblogintoken))
         localStorage.setItem('sellsuki.user', unescape(user))
-        result = true
-        if (scope.store && storeIdData) {
-          let storeData = JSON.parse(unescape(storeIdData))
-          let storeBearer = storeData.auth.token_type + ' ' + storeData.auth.access_token
-          localStorage.setItem('sellsuki.store.bearer', storeBearer)
-        } else {
-          result = false
+        localStorage.setItem('sellsuki.user.token', userData.auth.access_token)
+        localStorage.setItem('sellsuki.user.bearer', userBearer)
+        if (facebook && fblogintoken) {
+          localStorage.setItem('sellsuki.facebook', unescape(facebook))
+          localStorage.setItem('sellsuki.fblogintoken', unescape(fblogintoken))
         }
-      } catch (e) { console.log(e) }
-    }
-    if (result) {
-      setupInstanceData()
-    }
+        result = true
+      } else if (user && storeId && storeData){
+        // check store and user
+        let userData = JSON.parse(unescape(user))
+        let userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
+        let store = JSON.parse(unescape(storeData))
+        let storeBearer = store.auth.token_type + ' ' + store.auth.access_token
+        localStorage.setItem('sellsuki.user', unescape(user))
+        localStorage.setItem('sellsuki.user.token', userData.auth.access_token)
+        localStorage.setItem('sellsuki.user.bearer', userBearer)
+        localStorage.setItem('sellsuki.store', unescape(storeData))  
+        localStorage.setItem('sellsuki.store.id', storeId)  
+        localStorage.setItem('sellsuki.store.token', store.auth.access_token)
+        localStorage.setItem('sellsuki.store.bearer', storeBearer)  
+        if (facebook && fblogintoken) {
+          localStorage.setItem('sellsuki.facebook', unescape(facebook))
+          localStorage.setItem('sellsuki.fblogintoken', unescape(fblogintoken))
+        }
+        result = true
+      }
+
+      if (result) {
+        setupInstanceData()
+      }
+    } catch () { console.log(e) }
     return result
   }
 
   // setup data from local storage to instance
   function setupInstanceData () {
-    scope.authData.facebook = JSON.parse(localStorage.getItem('sellsuki.facebook'))
-    scope.authData.facebookToken = localStorage.getItem('sellsuki.fblogintoken')
-    scope.authData.user = JSON.parse(localStorage.getItem('sellsuki.user'))
-    scope.authData.storeBearer = localStorage.getItem('sellsuki.store.bearer')
-    scope.authData.userBearer = localStorage.getItem('sellsuki.user.bearer')
-    scope.authData.sellsukiToken = localStorage.getItem('store.id')
-    scope.authData.storeId = localStorage.getItem('store.id')
-    scope.authData.status = true
+    let facebook = localStorage.getItem('sellsuki.facebook')
+    let user = localStorage.getItem('sellsuki.user')
+    let store = localStorage.getItem('sellsuki.store')
+    let storeId = parseInt(localStorage.getItem('sellsuki.store.id'))
+
+    if (facebook) {
+      scope.authData.facebook = JSON.parse(facebook)
+      scope.authData.facebookToken = localStorage.getItem('sellsuki.fblogintoken')
+    }
+    if (storeId !== 0 && store && user) {
+      scope.authData.user = JSON.parse(user)
+      scope.authData.userToken = localStorage.getItem('sellsuki.user.token')
+      scope.authData.userBearer = localStorage.getItem('sellsuki.user.bearer')
+      scioe.authData.store = JSON.parse(store)
+      scope.authData.storeId = localStorage.getItem('sellsuki.store.id')
+      scope.authData.storeToken = localStorage.getItem('sellsuki.store.token')
+      scope.authData.storeBearer = localStorage.getItem('sellsuki.store.bearer')
+      scope.authData.status = true
+    } else if (storeId === 0 && user) {
+      scope.authData.user = JSON.parse(user)
+      scope.authData.userToken = localStorage.getItem('sellsuki.user.token')
+      scope.authData.userBearer = localStorage.getItem('sellsuki.user.bearer')
+      scope.authData.status = true
+    }
   }
 
   // get cookie fn
