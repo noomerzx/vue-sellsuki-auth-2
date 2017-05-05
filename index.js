@@ -28,7 +28,7 @@ exports.install = function (Vue, options) {
     scope.portal = options.portal ? options.portal : ''
     scope.router = options.router ? options.router : {}
     scope.extend = options.extend ? options.extend : true
-    scope.public = option.public ? scope.public.concat(option.public) : ['prepare-login']
+    scope.public = options.public ? scope.public.concat(options.public) : ['prepare-login']
     if (scope.extend) {
       scope.router.addRoutes([{
         path: '/prepare_login/:storeId',
@@ -54,13 +54,17 @@ exports.install = function (Vue, options) {
         window.location.href = scope.portal
       } else if (scope.authData.status === false) {
         // if have cookie and local storage but dont set to instance set it.
-        setupInstanceData ()
+        setupInstanceData()
       }
     }
     next()
   })
 
   Vue.prototype.$sellsuki_auth = {}
+
+  Vue.prototype.$sellsuki_auth.goToPortal = () => {
+    window.location.href = scope.portal
+  }
 
   // try to set localstorage from cookie
   Vue.prototype.$sellsuki_auth.initLocalStorage = (storeId) => {
@@ -120,8 +124,9 @@ exports.install = function (Vue, options) {
 
   function checkCookie () {
     let result = true
-    if (getCookie('sellsuki.user') === '' || (getCookie('sellsuki.storeId') !== 0 &&
-        getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === '')) {
+    if (getCookie('sellsuki.user') === '' ||
+        (getCookie('sellsuki.storeId') !== 0 &&
+        (getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === ''))) {
       result = false
     }
     return result
@@ -149,7 +154,7 @@ exports.install = function (Vue, options) {
           localStorage.setItem('sellsuki.fblogintoken', unescape(fblogintoken))
         }
         result = true
-      } else if (user && storeId && storeData){
+      } else if (user && storeId && storeData) {
         // check store and user
         let userData = JSON.parse(unescape(user))
         let userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
@@ -168,11 +173,10 @@ exports.install = function (Vue, options) {
         }
         result = true
       }
-
       if (result) {
         setupInstanceData()
       }
-    } catch () { console.log(e) }
+    } catch (e) { console.log(e) }
     return result
   }
 
@@ -191,7 +195,7 @@ exports.install = function (Vue, options) {
       scope.authData.user = JSON.parse(user)
       scope.authData.userToken = localStorage.getItem('sellsuki.user.token')
       scope.authData.userBearer = localStorage.getItem('sellsuki.user.bearer')
-      scioe.authData.store = JSON.parse(store)
+      scope.authData.store = JSON.parse(store)
       scope.authData.storeId = localStorage.getItem('sellsuki.store.id')
       scope.authData.storeToken = localStorage.getItem('sellsuki.store.token')
       scope.authData.storeBearer = localStorage.getItem('sellsuki.store.bearer')
