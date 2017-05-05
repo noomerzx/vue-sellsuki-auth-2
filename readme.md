@@ -42,10 +42,11 @@ var router = new VueRouter({
   ]
 })
 
-// Set plugin option
+// Set plugin option set store to true if you need to verify store token
 let options = {
   portal: 'loginPortalUrl',
-  router: router
+  router: router,
+  store: true // default false
 }
 
 // Normally the plugin will inject prepare login page and route to your instance.

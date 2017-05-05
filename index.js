@@ -7,6 +7,7 @@ exports.install = function (Vue, options) {
     portal: '',
     router: {},
     extend: true,
+    store: false,
     authData: {
       facebook: '',
       facebookToken: '',
@@ -23,6 +24,7 @@ exports.install = function (Vue, options) {
   if (options) {
     scope.portal = options.portal ? options.portal : ''
     scope.router = options.router ? options.router : {}
+    scope.store = options.store ? option.store : false
     scope.extend = options.extend ? options.extend : true
     if (scope.extend) {
       scope.router.addRoutes([{
@@ -115,8 +117,8 @@ exports.install = function (Vue, options) {
     if (getCookie('sellsuki.facebook') === '' ||
         getCookie('sellsuki.fblogintoken') === '' ||
         getCookie('sellsuki.user') === '' ||
-        getCookie('sellsuki.storeId') === '' ||
-        getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === '') {
+        getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === '' ||
+        (scope.store === true && getCookie('sellsuki.storeId') === '')) {
       result = false
     }
     return result
