@@ -111,7 +111,7 @@ exports.install = function (Vue, options) {
         localStorage.getItem('sellsuki.user.bearer') === null ||
         localStorage.getItem('sellsuki.store') === null ||
         localStorage.getItem('sellsuki.store.token') === null ||
-        localStorage.getItem('sellsuki.store.bearer') === null
+        localStorage.getItem('sellsuki.store.bearer') === null ||
         localStorage.getItem('sellsuki.store.id') === null) {
       result = false
     }
