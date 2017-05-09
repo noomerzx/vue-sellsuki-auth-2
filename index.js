@@ -28,7 +28,7 @@ exports.install = function (Vue, options) {
     scope.portal = options.portal ? options.portal : ''
     scope.router = options.router ? options.router : {}
     scope.extend = options.extend ? options.extend : true
-    scope.public = options.public ? scope.public.concat(options.public) : scope.public
+    // scope.public = options.public ? scope.public.concat(options.public) : scope.public
     if (scope.extend) {
       scope.router.addRoutes([{
         path: '/prepare_login/:storeId',
@@ -45,14 +45,19 @@ exports.install = function (Vue, options) {
 
   // check auth everytime when route change
   scope.router.beforeEach((to, from, next) => {
-    if (scope.public.indexOf(to.name) !== 1) {
+    // console.log('Middleware Process')
+    if (!scope.public.find(route => route === to.name)) {
+      // console.log('Middleware >> Catched Route')
       // if don't have cookie go redirect.
       if (!checkCookie()) {
+        // console.log('Middleware >> No Cookie')
         window.location.href = scope.portal
       } else if (!checkStorage() && !setupStorage()) {
+        // console.log('Middleware >> No Local Storage, Trying to set.')
         // if have cookie but dont have local storage set it.
         window.location.href = scope.portal
       } else if (scope.authData.status === false) {
+        // console.log('Middleware >> Set instance data.')
         // if have cookie and local storage but dont set to instance set it.
         setupInstanceData()
       }
