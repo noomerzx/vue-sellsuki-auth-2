@@ -45,7 +45,7 @@ exports.install = function (Vue, options) {
 
   // check auth everytime when route change
   scope.router.beforeEach((to, from, next) => {
-    if (scope.public.indexOf(to.name) !== 11) {
+    if (scope.public.indexOf(to.name) !== 1) {
       // if don't have cookie go redirect.
       if (!checkCookie()) {
         window.location.href = scope.portal
