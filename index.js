@@ -28,7 +28,7 @@ exports.install = function (Vue, options) {
     scope.portal = options.portal ? options.portal : ''
     scope.router = options.router ? options.router : {}
     scope.extend = options.extend ? options.extend : true
-    // scope.public = options.public ? scope.public.concat(options.public) : scope.public
+    scope.public = options.public ? scope.public.concat(options.public) : scope.public
     if (scope.extend) {
       scope.router.addRoutes([{
         path: '/prepare_login/:storeId',
