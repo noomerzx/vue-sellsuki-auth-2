@@ -14,7 +14,11 @@ export default {
   name: 'PrepareLogin',
   props: ['storeId'],
   created () {
-    this.$sellsuki_auth.initLocalStorage(this.storeId)
+    if (this.storeId) {
+      this.$sellsuki_auth.initLocalStorage(this.storeId)
+    } else {
+      this.$sellsuki_auth.initLocalStorage(0)
+    }
   }
 }
 </script>

@@ -31,7 +31,7 @@ exports.install = function (Vue, options) {
     scope.public = options.public ? scope.public.concat(options.public) : scope.public
     if (scope.extend) {
       scope.router.addRoutes([{
-        path: '/prepare_login/:storeId',
+        path: '/prepare_login/:storeId?',
         name: 'prepare-login',
         component: MyComponent,
         props: true
@@ -130,7 +130,7 @@ exports.install = function (Vue, options) {
   function checkCookie () {
     let result = true
     if (getCookie('sellsuki.user') === '' ||
-        (getCookie('sellsuki.storeId') !== 0 &&
+        (parseInt(getCookie('sellsuki.storeId')) !== 0 &&
         (getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === ''))) {
       result = false
     }

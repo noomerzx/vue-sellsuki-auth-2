@@ -13,6 +13,7 @@ Vue plugin for sellsuki authentication to connect between sellsuki microservices
 * Prepare Login Page and route for Sellsuki Authenticate (2.0)
 * Add new option to check only store or bother user and store token (2.1)
 * Remove store option and add public option that accept array of public route name to by pass auth middleware (2.2)
+* optional store id params for prepare login instead of accept "0" for no store (2.3.1)
 
 ## Requirement
 * vue 2.x +
