@@ -205,7 +205,7 @@ exports.install = function (Vue, options) {
       scope.authData.storeToken = localStorage.getItem('sellsuki.store.token')
       scope.authData.storeBearer = localStorage.getItem('sellsuki.store.bearer')
       scope.authData.status = true
-    } else if (storeId === 0 && user) {
+    } else if (!storeId && user) {
       scope.authData.user = JSON.parse(user)
       scope.authData.userToken = localStorage.getItem('sellsuki.user.token')
       scope.authData.userBearer = localStorage.getItem('sellsuki.user.bearer')
