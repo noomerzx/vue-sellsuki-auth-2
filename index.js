@@ -146,6 +146,10 @@ exports.install = function (Vue, options) {
     let storeId = getCookie('sellsuki.storeId')
     let storeData = getCookie('sellsuki.store_' + storeId)
 
+    if (user) {
+      user = decodeURIComponent(user)
+    }
+
     try {
       // check only user
       if (user && parseInt(storeId) === 0) {
