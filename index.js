@@ -73,9 +73,12 @@ exports.install = function (Vue, options) {
 
   // try to set localstorage from cookie
   Vue.prototype.$sellsuki_auth.initLocalStorage = (storeId) => {
+    console.log('=====' + window.location.origin)
     if (window.location.origin === 'https://dm.sellsuki.com' || window.location.origin === 'https://staging-dm.sellsuki.com') {
+      console.log('1')
       document.cookie = 'sellsuki.storeId=' + storeId + ';domain=.sellsuki.com'
     } else {
+      console.log('2')
       document.cookie = 'sellsuki.storeId=' + storeId
     }
     if (!setupStorage()) {
