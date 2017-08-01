@@ -76,7 +76,9 @@ exports.install = function (Vue, options) {
     console.log('=====' + window.location.origin)
     if (window.location.origin === 'https://dm.sellsuki.com' || window.location.origin === 'https://staging-dm.sellsuki.com') {
       console.log('1')
-      document.cookie = 'sellsuki.storeId=' + storeId + ';domain=.sellsuki.com'
+      var now = new Date()
+      now.setHours(now.getHours() + 8760)
+      document.cookie = 'sellsuki.storeId=' + storeId + ';domain=.sellsuki.com;expires=' + now.toUTCString()
     } else {
       console.log('2')
       document.cookie = 'sellsuki.storeId=' + storeId
