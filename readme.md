@@ -1,4 +1,4 @@
-Sellsuki Auth 2.0
+Sellsuki Auth v2
 =============
 
 Vue plugin for sellsuki authentication to connect between sellsuki microservices and sellsuki login portal.
@@ -13,7 +13,9 @@ Vue plugin for sellsuki authentication to connect between sellsuki microservices
 * Prepare Login Page and route for Sellsuki Authenticate (2.0)
 * Add new option to check only store or bother user and store token (2.1)
 * Remove store option and add public option that accept array of public route name to by pass auth middleware (2.2)
-* optional store id params for prepare login instead of accept "0" for no store (2.3.1)
+* Optional store id params for prepare login instead of accept "0" for no store (2.3.1)
+* Option to config auth middleware (auto inject beforeEach hook and check auth data) default = true (2.5.0)
+* Function to check auth data manually (checkAuth), check cookie, localstorage, instance then redirect (2.5.1)
 
 ## Requirement
 * vue 2.x +
@@ -63,6 +65,15 @@ let options = {
   extend: false
 }
 
+// Normally the plugin will inject beforeEach hook to validate auth data.
+// So if you need to use beforeEach hook bby yourself you need to disabled authMiddleware (default = true).
+// Then we provide checkAuth method to check data manually.
+let options = {
+  portal: 'loginPortalUrl',
+  router: router,
+  authMiddleware: false
+}
+
 // Inject plugin to vue instance
 Vue.use(VueSellsukiAuth, options)
 ```
@@ -70,11 +81,18 @@ Vue.use(VueSellsukiAuth, options)
 ## Available Methods
 ##### function [return type] 
 
-### checkAuthStatus [bool]
+### getAuthStatus [bool]
+Check auth data manually, If it's not valid then redirect to portal
+
+```javascript
+this.$sellsuki_auth.checkAuth()
+```
+
+### getAuthStatus [bool]
 Check status of the authentication (true if all data exist)
 
 ```javascript
-let status = this.$sellsuki_auth.checkAuthStatus()
+let status = this.$sellsuki_auth.getAuthStatus()
 ```
 
 ### getAuthData [object]
