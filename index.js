@@ -80,25 +80,15 @@ exports.install = function (Vue, options) {
     var string = window.location.origin,
     substring = "localhost";
     if (string.indexOf(substring) !== -1) {
-      document.cookie = 'sellsuki.storeId=' + storeId
-      console.log('set cookie as local')
+      document.cookie = 'sellsuki.storeId=' + storeId + ';domain=localhost;path=/'
+      // console.log('set cookie as local')
     } else {
       var now = new Date()
       now.setHours(now.getHours() + 8760)
       document.cookie = 'sellsuki.storeId=' + storeId + ';domain=.sellsuki.com;expires=' + now.toUTCString() + ';path=/'
-      console.log('set cookie as production')
+      // console.log('set cookie as production')
     }
-    // console.log('=====' + window.location.origin)
-    // if (window.location.origin === 'https://dm.sellsuki.com' || window.location.origin === 'https://staging-dm.sellsuki.com' || window.location.origin === 'https://dealer.sellsuki.com' || window.location.origin === 'https://staging-dealer.sellsuki.com') {
-    //   console.log('1')
-    //   var now = new Date()
-    //   now.setHours(now.getHours() + 8760)
-    //   document.cookie = 'sellsuki.storeId=' + storeId + ';domain=.sellsuki.com;expires=' + now.toUTCString() + ';path=/'
-    // } else {
-    //   console.log('2')
 
-    //   document.cookie = 'sellsuki.storeId=' + storeId
-    // }
     if (!setupStorage()) {
       window.location.href = scope.portal
     } else {
