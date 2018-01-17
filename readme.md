@@ -16,6 +16,7 @@ Vue plugin for sellsuki authentication to connect between sellsuki microservices
 * Optional store id params for prepare login instead of accept "0" for no store (2.3.1)
 * Option to config auth middleware (auto inject beforeEach hook and check auth data) default = true (2.5.0)
 * Function to check auth data manually (checkAuth), check cookie, localstorage, instance then redirect (2.5.1)
+* Component error on vue 2.5.* so fixed it to support both < 2.5 > versions (2.5.2)
 
 ## Requirement
 * vue 2.x +
