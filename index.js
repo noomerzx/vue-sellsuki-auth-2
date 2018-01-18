@@ -35,7 +35,7 @@ exports.install = function (Vue, options) {
       scope.router.addRoutes([{
         path: '/prepare_login/:storeId?',
         name: 'prepare-login',
-        component: MyComponent,
+        component: MyComponent.default || MyComponent,
         props: true
       },
       { path: '*', redirect: { name: 'prepare-login' } }])
@@ -43,7 +43,7 @@ exports.install = function (Vue, options) {
   }
 
   // add prepare loginpage component to vue instance
-  Vue.component(MyComponent.name || MyComponent.default.name, MyComponent)
+  Vue.component(MyComponent.default.name || MyComponent.name, MyComponent.default || MyComponent)
 
   if (scope.authMiddleware) {
     // check auth everytime when route change
