@@ -43,7 +43,7 @@ exports.install = function (Vue, options) {
   }
 
   // add prepare loginpage component to vue instance
-  Vue.component(MyComponent.default.name || MyComponent.name, MyComponent.default || MyComponent)
+  Vue.component(MyComponent.name || MyComponent.default.name, MyComponent.default || MyComponent)
 
   if (scope.authMiddleware) {
     // check auth everytime when route change
