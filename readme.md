@@ -82,7 +82,7 @@ Vue.use(VueSellsukiAuth, options)
 ## Available Methods
 ##### function [return type] 
 
-### getAuthStatus [bool]
+### checkAuth
 Check auth data manually, If it's not valid then redirect to portal
 
 ```javascript
