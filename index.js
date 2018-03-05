@@ -28,8 +28,8 @@ exports.install = function (Vue, options) {
   if (options) {
     scope.portal = options.portal ? options.portal : ''
     scope.router = options.router ? options.router : {}
-    scope.extend = options.extend ? options.extend : true
-    scope.authMiddleware = options.authMiddleware ? options.authMiddleware : true
+    scope.extend = options.extend === undefined ? true : options.extend 
+    scope.authMiddleware = options.authMiddleware === undefined ? true : options.authMiddleware 
     scope.public = options.public ? scope.public.concat(options.public) : scope.public
     if (scope.extend) {
       scope.router.addRoutes([{
