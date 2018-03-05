@@ -21,7 +21,8 @@ exports.install = function (Vue, options) {
       sellsukiToken: '',
       storeId: '',
       status: false
-    }
+    },
+    callback: []
   }
 
   // initial plugin setting
@@ -31,6 +32,7 @@ exports.install = function (Vue, options) {
     scope.extend = options.extend ? options.extend : true
     scope.authMiddleware = options.authMiddleware ? options.authMiddleware : true
     scope.public = options.public ? scope.public.concat(options.public) : scope.public
+    scope.callback = options.callback ? options.callback : scope.callback
     if (scope.extend) {
       scope.router.addRoutes([{
         path: '/prepare_login/:storeId?',
@@ -65,6 +67,9 @@ exports.install = function (Vue, options) {
           setupInstanceData()
         }
       }
+      scope.callback.forEach(function(element) {
+        element.func(element.callBackParam)
+      }, this);
       next()
     })
   }
