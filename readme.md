@@ -141,3 +141,6 @@ sellsukiData: {
   bearer: {}
 }
 ```
+
+## Updates
+Fix authMiddleware and Extend option's flag check (2.5.5)
