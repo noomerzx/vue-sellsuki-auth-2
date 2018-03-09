@@ -18,6 +18,7 @@ Vue plugin for sellsuki authentication to connect between sellsuki microservices
 * Function to check auth data manually (checkAuth), check cookie, localstorage, instance then redirect (2.5.1)
 * Component error on vue 2.5.* so fixed it to support both < 2.5 > versions (2.5.2)
 * Fix authMiddleware and Extend option's flag check (2.5.5)
+* add optional path parameter for initLocalStorage (2.5.6)
 
 ## Requirement
 * vue 2.x +
@@ -142,4 +143,3 @@ sellsukiData: {
   bearer: {}
 }
 ```
-
