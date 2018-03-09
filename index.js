@@ -76,7 +76,8 @@ exports.install = function (Vue, options) {
   }
 
   // try to set localstorage from cookie
-  Vue.prototype.$sellsuki_auth.initLocalStorage = (storeId) => {
+  Vue.prototype.$sellsuki_auth.initLocalStorage = (storeId, urlPath) => {
+    let path = urlPath || '/'
     var string = window.location.origin,
     substring = "localhost";
     if (string.indexOf(substring) !== -1) {
@@ -92,7 +93,7 @@ exports.install = function (Vue, options) {
     if (!setupStorage()) {
       window.location.href = scope.portal
     } else {
-      scope.router.push({ path: '/' })
+      scope.router.push({ path: path })
     }
   }
 
