@@ -3,7 +3,7 @@ const MyComponent = require('./PrepareLogin.vue')
 
 exports.install = function (Vue, options) {
   // default plugin setting
-  let scope = {
+  var scope = {
     portal: '',
     router: {},
     extend: true,
@@ -77,7 +77,7 @@ exports.install = function (Vue, options) {
 
   // try to set localstorage from cookie
   Vue.prototype.$sellsuki_auth.initLocalStorage = (storeId, urlPath) => {
-    let path = urlPath || '/'
+    var path = urlPath || '/'
     var string = window.location.origin,
     substring = "localhost";
     if (string.indexOf(substring) !== -1) {
@@ -147,7 +147,7 @@ exports.install = function (Vue, options) {
 
   // check data from localstorage is exist
   function checkStorage () {
-    let result = true
+    var result = true
     if (localStorage.getItem('sellsuki.facebook') === null ||
         localStorage.getItem('sellsuki.fblogintoken') === null ||
         localStorage.getItem('sellsuki.user') === null ||
@@ -163,7 +163,7 @@ exports.install = function (Vue, options) {
   }
 
   function checkCookie () {
-    let result = true
+    var result = true
     if (getCookie('sellsuki.user') === '' ||
         (parseInt(getCookie('sellsuki.storeId')) !== 0 &&
         (getCookie('sellsuki.store_' + getCookie('sellsuki.storeId')) === ''))) {
@@ -174,12 +174,12 @@ exports.install = function (Vue, options) {
 
   // set localstorage from cookie if pass then set it to instance object
   function setupStorage () {
-    let result = false
-    let facebook = getCookie('sellsuki.facebook')
-    let fblogintoken = getCookie('sellsuki.fblogintoken')
-    let user = getCookie('sellsuki.user')
-    let storeId = getCookie('sellsuki.storeId')
-    let storeData = getCookie('sellsuki.store_' + storeId)
+    var result = false
+    var facebook = getCookie('sellsuki.facebook')
+    var fblogintoken = getCookie('sellsuki.fblogintoken')
+    var user = getCookie('sellsuki.user')
+    var storeId = getCookie('sellsuki.storeId')
+    var storeData = getCookie('sellsuki.store_' + storeId)
 
     if (user) {
       user = decodeURIComponent(user)
@@ -188,8 +188,8 @@ exports.install = function (Vue, options) {
     try {
       // check only user
       if (user && parseInt(storeId) === 0) {
-        let userData = JSON.parse(unescape(user))
-        let userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
+        var userData = JSON.parse(unescape(user))
+        var userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
         localStorage.setItem('sellsuki.user', unescape(user))
         localStorage.setItem('sellsuki.user.token', userData.auth.access_token)
         localStorage.setItem('sellsuki.user.bearer', userBearer)
@@ -200,10 +200,10 @@ exports.install = function (Vue, options) {
         result = true
       } else if (user && storeId && storeData) {
         // check store and user
-        let userData = JSON.parse(unescape(user))
-        let userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
-        let store = JSON.parse(unescape(storeData))
-        let storeBearer = store.auth.token_type + ' ' + store.auth.access_token
+        var userData = JSON.parse(unescape(user))
+        var userBearer = userData.auth.token_type + ' ' + userData.auth.access_token
+        var store = JSON.parse(unescape(storeData))
+        var storeBearer = store.auth.token_type + ' ' + store.auth.access_token
         localStorage.setItem('sellsuki.user', unescape(user))
         localStorage.setItem('sellsuki.user.token', userData.auth.access_token)
         localStorage.setItem('sellsuki.user.bearer', userBearer)
@@ -226,10 +226,10 @@ exports.install = function (Vue, options) {
 
   // setup data from local storage to instance
   function setupInstanceData () {
-    let facebook = localStorage.getItem('sellsuki.facebook')
-    let user = localStorage.getItem('sellsuki.user')
-    let store = localStorage.getItem('sellsuki.store')
-    let storeId = parseInt(localStorage.getItem('sellsuki.store.id'))
+    var facebook = localStorage.getItem('sellsuki.facebook')
+    var user = localStorage.getItem('sellsuki.user')
+    var store = localStorage.getItem('sellsuki.store')
+    var storeId = parseInt(localStorage.getItem('sellsuki.store.id'))
 
     if (facebook) {
       scope.authData.facebook = JSON.parse(facebook)
@@ -254,10 +254,10 @@ exports.install = function (Vue, options) {
 
   // get cookie fn
   function getCookie (cname) {
-    let name = cname + '='
-    let ca = document.cookie.split(';')
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i]
+    var name = cname + '='
+    var ca = document.cookie.split(';')
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i]
       while (c.charAt(0) === ' ') {
         c = c.substring(1)
       }
